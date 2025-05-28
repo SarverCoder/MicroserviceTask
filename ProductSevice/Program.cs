@@ -37,7 +37,9 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger(options =>
     {
+#pragma warning disable CS0618 // Type or member is obsolete
         options.SerializeAsV2 = true; // Use Swagger v2 format for compatibility with older clients
+#pragma warning restore CS0618 // Type or member is obsolete
     });
     app.UseSwaggerUI(options =>
     {

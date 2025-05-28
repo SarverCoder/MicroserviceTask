@@ -4,7 +4,10 @@ using Newtonsoft.Json;
 using OrderService.DataAccess.Dtos;
 using OrderService.Mediator.Order.GetOrder;
 using System.Text;
+using OrderService.Examples;
 using OrderService.Mediator.Order.CreateOrder;
+using Swashbuckle.AspNetCore.Annotations;
+using Swashbuckle.AspNetCore.Filters;
 
 namespace OrderService.Controllers;
 
@@ -24,6 +27,10 @@ public class OrdersController : ControllerBase
 
 
     [HttpPost]
+    [SwaggerOperation("Create Order")]
+    [SwaggerResponseExample(201,typeof(GetOrderExample))]
+    [SwaggerResponse(404, "Product not found")]
+    [SwaggerResponse(400, "Out of stock")]
     public async Task<IActionResult> CreateOrder([FromBody] int productId)
     {
         var res = await _httpClient.GetAsync($"api/Products/{productId}");
@@ -48,6 +55,10 @@ public class OrdersController : ControllerBase
 
 
     [HttpGet("{id}")]
+    [SwaggerOperation("Get Order by Id")]
+    [SwaggerResponseExample(200, typeof(GetOrderExample))]
+    [SwaggerResponse(404, "Order not found")]
+    [SwaggerResponse(200, "Order found", typeof(OrderDto))]
     public async Task<IActionResult> GetOrder(int id)
     {
 
